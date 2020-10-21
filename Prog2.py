@@ -4,10 +4,33 @@
 # Due:
 
 from math import sqrt
+from random import randint
+
+def gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        gcd(b, a % b)
 
 
 # 1. Generate valid keys (e, n) for the RSA cryptosystem.
-# def rsa(e, n):
+def rsa(num):
+    divsList = findDivs(num)
+    p = 0
+    q = 0
+    #get two biggest primes in the number
+    for i in range(len(divsList)):
+        if divsList[i] > p:
+            q = p
+            p = divsList[i]
+    n = p * q
+    e = 0
+    for e in range(num):
+        if gcd(e, (p-1) * (q-1)) == 1:
+            break
+    print("key e = " + str(e))
+    print("key n = " + str(n))
+
 
 # 2. Use the sieve of Eratosthenes to find all primes less than 10,000.
 def sieveOfErato(num):
@@ -43,26 +66,31 @@ def sieveOfErato(num):
 
 # 3. Find all of the positive divisors of a positive integer from its prime factorization.
 def findDivs(num):
+    divs = []
     while num % 2 == 0:
-        print(2)
+        divs.append(2)
         num = num / 2
 
     for i in range(3, int(sqrt(num)) + 1, 2):
         while num % i == 0:
-            print(i)
+            divs.append(i)
             num = num / i
 
     if num > 2:
-        print(num)
+        divs.append(num)
+
+    return divs
 
 
 def main():
-    x = 69420
+    x = randint(100, 10000)
     print("All positive divisors from prime factorization of: " + str(x))
-    findDivs(x)
+    print(findDivs(x))
 
     print("All prime factors that are <= " + str(x))
     sieveOfErato(x)
 
+    print("Running RSA Encryption Algorithm....")
+    rsa(x)
 
 main()
