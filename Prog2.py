@@ -90,7 +90,7 @@ def main():
     print("All prime factors that are <= " + str(x))
     sieveOfErato(x)
 
-    print("Running RSA Encryption Algorithm....")
+    print("Running RSA Encryption Algorithm....\nKeys Are: ")
     rsa(x)
 
 main()
